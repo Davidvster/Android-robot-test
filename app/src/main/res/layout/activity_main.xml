@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.valic.david.robottest.views.RobotCanvas
+        android:id="@+id/robot_canvas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/place_x"/>
+
+    <EditText
+        android:id="@+id/place_x"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/robot_canvas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/place_y"
+        app:layout_constraintBottom_toTopOf="@+id/robot_move"
+        android:hint="@string/hint_x"/>
+
+    <EditText
+        android:id="@+id/place_y"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/robot_canvas"
+        app:layout_constraintStart_toEndOf="@id/place_x"
+        app:layout_constraintEnd_toStartOf="@id/place_facing"
+        app:layout_constraintBottom_toTopOf="@+id/robot_move"
+        android:hint="@string/hint_y"/>
+
+    <Spinner
+        android:id="@+id/place_facing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/robot_canvas"
+        app:layout_constraintStart_toEndOf="@id/place_y"
+        app:layout_constraintEnd_toStartOf="@id/place_action"
+        app:layout_constraintBottom_toTopOf="@+id/robot_move"/>
+
+    <Button
+        android:id="@+id/place_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/robot_canvas"
+        app:layout_constraintStart_toEndOf="@id/place_facing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/robot_move"
+        android:text="@string/button_place"/>
+
+    <Button
+        android:id="@+id/robot_move"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/place_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/robot_left"
+        app:layout_constraintBottom_toTopOf="@+id/robot_report_out"
+        android:text="@string/button_move"/>
+
+    <Button
+        android:id="@+id/robot_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/place_x"
+        app:layout_constraintStart_toEndOf="@+id/robot_move"
+        app:layout_constraintEnd_toStartOf="@+id/robot_right"
+        app:layout_constraintBottom_toTopOf="@+id/robot_report_out"
+        android:text="@string/button_left"/>
+
+    <Button
+        android:id="@+id/robot_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/place_x"
+        app:layout_constraintStart_toEndOf="@+id/robot_left"
+        app:layout_constraintEnd_toStartOf="@+id/robot_report"
+        app:layout_constraintBottom_toTopOf="@+id/robot_report_out"
+        android:text="@string/button_right"/>
+
+    <Button
+        android:id="@+id/robot_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/place_x"
+        app:layout_constraintStart_toEndOf="@+id/robot_right"
+        app:layout_constraintBottom_toTopOf="@+id/robot_report_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/button_report"/>
+
+    <TextView
+        android:id="@+id/robot_report_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/robot_move"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="@string/button_report"/>
+
+</android.support.constraint.ConstraintLayout>

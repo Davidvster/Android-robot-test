@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">RobotTest</string>
+    <string name="button_report">REPORT</string>
+    <string name="button_right">Right</string>
+    <string name="button_left">Left</string>
+    <string name="button_move">Move</string>
+    <string name="button_place">Place</string>
+    <string name="hint_y">Y</string>
+    <string name="hint_x">X</string>
+    <string name="menu_custom_commands">Custom Commands</string>
+    <string name="command_keyword">Command Keyword</string>
+    <string name="button_add_command">Add Command</string>
+    <string name="button_start">Start</string>
+    <string name="text_grid_y">Y grid size:</string>
+    <string name="text_grid_x">X grid size:</string>
+    <string name="text_custom_grid_title">Select a custom grid:</string>
+    <string name="text_custom_command_title">Create a custom command:</string>
+</resources>

@@ -99,7 +99,7 @@ class RobotCanvas : View {
     fun move(newX: Int, newY: Int) {
         val valueAnimatorX = ValueAnimator.ofFloat(currentX, newX.toFloat())
         valueAnimatorX.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimatorX.duration = 150
+        valueAnimatorX.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         valueAnimatorX.addUpdateListener { animation ->
             currentX = animation.animatedValue as Float
             invalidate()
@@ -108,7 +108,7 @@ class RobotCanvas : View {
 
         val valueAnimatorY = ValueAnimator.ofFloat(currentY, newY.toFloat())
         valueAnimatorY.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimatorY.duration = 150
+        valueAnimatorY.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         valueAnimatorY.addUpdateListener { animation ->
             currentY = animation.animatedValue as Float
             invalidate()
@@ -119,7 +119,7 @@ class RobotCanvas : View {
     fun setDirection(direction: Int) {
         val valueAnimator = ValueAnimator.ofFloat(currentDirection, direction.toFloat())
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = 150
+        valueAnimator.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         valueAnimator.addUpdateListener { animation ->
             currentDirection = animation.animatedValue as Float
             invalidate()

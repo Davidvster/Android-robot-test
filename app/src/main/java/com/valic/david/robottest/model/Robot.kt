@@ -49,22 +49,7 @@ class Robot(private val maxX: Int = 5,
     }
 
     fun report() {
-        printReport = "${this.x},${this.y},${facing[this.direction]}\n" + printReport
+        printReport = "${this.x},${this.y},${facing[this.direction]}\n$printReport"
         reportView?.text = printReport
-    }
-
-    fun readActions(actions: List<Action>){
-        actions.forEach { action ->
-            when(action) {
-                Action.MOVE -> this.move()
-                Action.LEFT -> this.left()
-                Action.RIGHT -> this.right()
-                Action.REPORT -> this.report()
-            }
-        }
-    }
-
-    enum class Action {
-        MOVE, LEFT, RIGHT, REPORT
     }
 }

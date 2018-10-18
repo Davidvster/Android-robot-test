@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle(resources.getString(R.string.custom_command_dialog_title))
                     builder.setItems(customCommands.map { it.name }.toTypedArray()) { _, which ->
-                        robot.readActions(customCommands[which].actions)
+                        customCommands[which].executeCommand(robot)
                         robot_canvas.move(robot.x, robot.y)
                         robot_canvas.setDirection(robot.direction)
                     }

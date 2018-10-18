@@ -25,26 +25,24 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         robot_move.setOnClickListener {
-            addAction(Robot.Action.MOVE)
+            addAction(Command.Action.MOVE)
         }
 
         robot_left.setOnClickListener {
-            addAction(Robot.Action.LEFT)
+            addAction(Command.Action.LEFT)
         }
 
         robot_right.setOnClickListener {
-            addAction(Robot.Action.RIGHT)
+            addAction(Command.Action.RIGHT)
         }
 
         robot_report.setOnClickListener {
-            addAction(Robot.Action.REPORT)
+            addAction(Command.Action.REPORT)
         }
 
         command_delete.setOnClickListener {
-            if (currentCommand.actions.size > 0) {
-                currentCommand.actions.removeAt(currentCommand.actions.lastIndex)
-                command_text.text = currentCommand.actions.toString()
-            }
+            currentCommand.removeLastAction()
+            command_text.text = currentCommand.allActions()
         }
 
         command_add.setOnClickListener {
@@ -58,9 +56,9 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun addAction(action: Robot.Action) {
-        currentCommand.actions.add(action)
-        command_text.text = currentCommand.actions.toString()
+    private fun addAction(action: Command.Action) {
+        currentCommand.addAction(action)
+        command_text.text = currentCommand.allActions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,7 +75,7 @@ class SettingsActivity : AppCompatActivity() {
                     builder.setItems(customCommands.map { it.name }.toTypedArray()) { _, which ->
                         currentCommand = customCommands[which]
                         customCommands.remove(currentCommand)
-                        command_text.text = currentCommand.actions.toString()
+                        command_text.text = currentCommand.allActions()
                         command_name.setText(currentCommand.name)
                     }
                     val dialog = builder.create()

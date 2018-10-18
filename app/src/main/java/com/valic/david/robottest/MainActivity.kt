@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.ArrayAdapter
 import com.valic.david.robottest.model.Command
 import com.valic.david.robottest.model.Robot
-import android.content.DialogInterface
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,11 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         val facingAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, robot.facing)
         facingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        place_facing.adapter = facingAdapter
+        robot_place_facing.adapter = facingAdapter
 
-        place_action.setOnClickListener {
-            if (place_x.text.isNotEmpty() && place_y.text.isNotEmpty() && place_facing.selectedItem != null && place_x.text.toString().toInt() in 0..gridX && place_y.text.toString().toInt() in 0..gridY) {
-                robot.place(place_x.text.toString().toInt(), place_y.text.toString().toInt(), place_facing.selectedItemPosition)
+        robot_place_action.setOnClickListener {
+            if (robot_place_x.text.isNotEmpty() && robot_place_y.text.isNotEmpty() && robot_place_facing.selectedItem != null && robot_place_x.text.toString().toInt() in 0..gridX && robot_place_y.text.toString().toInt() in 0..gridY) {
+                robot.place(robot_place_x.text.toString().toInt(), robot_place_y.text.toString().toInt(), robot_place_facing.selectedItemPosition)
                 robot_canvas.startPosition(robot.x, robot.y, robot.direction)
             }
         }
@@ -77,12 +76,12 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_custom_commands -> {
                 if (customCommands.isNotEmpty()) {
                     val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Choose a custom command")
-                    builder.setItems(customCommands.map { it.name }.toTypedArray(), DialogInterface.OnClickListener { dialog, which ->
+                    builder.setTitle(resources.getString(R.string.custom_command_dialog_title))
+                    builder.setItems(customCommands.map { it.name }.toTypedArray()) { _, which ->
                         robot.readActions(customCommands[which].actions)
                         robot_canvas.move(robot.x, robot.y)
                         robot_canvas.setDirection(robot.direction)
-                    })
+                    }
                     val dialog = builder.create()
                     dialog.show()
                 }
@@ -95,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         const val GRID_X_SIZE = "grid.x.size.int"
         const val GRID_Y_SIZE = "grid.y.size.int"
         const val CUSTOM_COMMANDS = "custom.commands.string"
+
         @JvmStatic
         fun start(context: Activity, x: Int, y: Int, commands: MutableList<Command>) {
             val intent = Intent(context, MainActivity::class.java)

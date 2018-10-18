@@ -1,12 +1,12 @@
 package com.valic.david.robottest
 
-import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import com.valic.david.robottest.model.Command
+import com.valic.david.robottest.model.Robot
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -25,26 +25,26 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         robot_move.setOnClickListener {
-            addAction("MOVE")
+            addAction(Robot.Action.MOVE)
         }
 
         robot_left.setOnClickListener {
-            addAction("LEFT")
+            addAction(Robot.Action.LEFT)
         }
 
         robot_right.setOnClickListener {
-            addAction("RIGHT")
+            addAction(Robot.Action.RIGHT)
         }
 
         robot_report.setOnClickListener {
-            addAction("REPORT")
+            addAction(Robot.Action.REPORT)
         }
 
         command_delete.setOnClickListener {
             if (currentCommand.actions.size > 0) {
                 currentCommand.actions.removeAt(currentCommand.actions.lastIndex)
+                command_text.text = currentCommand.actions.toString()
             }
-            command_text.text = currentCommand.actions.toString()
         }
 
         command_add.setOnClickListener {
@@ -52,13 +52,13 @@ class SettingsActivity : AppCompatActivity() {
                 currentCommand.name = command_name.text.toString()
                 customCommands.add(currentCommand)
                 currentCommand = Command()
-                command_text.text = ""
+                command_text.text = null
                 command_name.text = null
             }
         }
     }
 
-    private fun addAction(action: String) {
+    private fun addAction(action: Robot.Action) {
         currentCommand.actions.add(action)
         command_text.text = currentCommand.actions.toString()
     }
@@ -73,13 +73,13 @@ class SettingsActivity : AppCompatActivity() {
             R.id.menu_custom_commands -> {
                 if (customCommands.isNotEmpty()) {
                     val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Click a custom command to edit it")
-                    builder.setItems(customCommands.map { it.name }.toTypedArray(), DialogInterface.OnClickListener { dialog, which ->
+                    builder.setTitle(resources.getString(R.string.edit_custom_command_dialog_title))
+                    builder.setItems(customCommands.map { it.name }.toTypedArray()) { _, which ->
                         currentCommand = customCommands[which]
                         customCommands.remove(currentCommand)
                         command_text.text = currentCommand.actions.toString()
                         command_name.setText(currentCommand.name)
-                    })
+                    }
                     val dialog = builder.create()
                     dialog.show()
                 }

@@ -5,11 +5,6 @@ import org.junit.Test
 
 import org.junit.Assert.*
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 class TestRobotSimulator {
     @Test
     fun exampleA() {
@@ -48,11 +43,14 @@ class TestRobotSimulator {
     }
 
     @Test
-    fun longTest(){
+    fun longerTest(){
         val robot = Robot()
 
         robot.place(3,3, robot.facing.indexOf("EAST"))
-        robot.readActions(listOf("MOVE", "MOVE", "MOVE", "RIGHT"))
+        robot.move()
+        robot.move()
+        robot.move()
+        robot.right()
         robot.right()
         robot.move()
         robot.move()
@@ -67,7 +65,13 @@ class TestRobotSimulator {
         robot.move()
         robot.move()
         robot.move()
-        robot.readActions(listOf("MOVE", "MOVE", "MOVE", "RIGHT", "MOVE", "RIGHT", "MOVE"))
+        robot.move()
+        robot.move()
+        robot.move()
+        robot.right()
+        robot.move()
+        robot.right()
+        robot.move()
         robot.move()
         robot.move()
         robot.move()

@@ -74,7 +74,9 @@ class RobotCanvas : View {
         // (0,0) is at south west corner
         canvas.drawCircle(xRadius * currentX + xRadius/2, yRadius * (gridY - currentY) + yRadius/2 , radius - radius/5, circlePaint)
         if (Build.VERSION.SDK_INT >= 21) {
-            canvas.drawArc(xRadius * currentX + radius/8, yRadius * (gridY - currentY) + radius/8, xRadius * currentX + xRadius - radius/8, yRadius * (gridY - currentY) + yRadius - radius/8, (currentDirection+2f) * 90.toFloat(), 180f, true, arcPaint)
+            val offsetX = (((xRadius * currentX + xRadius) - (xRadius * currentX)) - radius)/2
+            val offsetY = (((yRadius * (gridY - currentY) + yRadius) - (yRadius * (gridY - currentY))) - radius)/2
+            canvas.drawArc(xRadius * currentX + offsetX - radius/8, yRadius * (gridY - currentY) + offsetY - radius/8, xRadius * currentX + xRadius - offsetX + radius/8, yRadius * (gridY - currentY) + yRadius - offsetY + radius/8, (currentDirection) * 90.toFloat(), -180f, true, arcPaint)
         }
     }
 
@@ -88,8 +90,8 @@ class RobotCanvas : View {
     }
 
     fun startPosition(startX: Int, startY: Int, startDirection: Int) {
-        currentX =  startX.toFloat()
-        currentY =  startY.toFloat()
+        currentX = startX.toFloat()
+        currentY = startY.toFloat()
         currentDirection = startDirection.toFloat()
         invalidate()
     }

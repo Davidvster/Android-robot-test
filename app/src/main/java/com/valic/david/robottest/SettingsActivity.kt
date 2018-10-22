@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import com.valic.david.robottest.model.Command
-import com.valic.david.robottest.model.Robot
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {

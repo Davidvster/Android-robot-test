@@ -1,55 +1,65 @@
 package com.valic.david.robottest.model
 
-import android.widget.TextView
+import com.valic.david.robottest.views.RobotCanvas
 
-class Robot(private val maxX: Int = 5,
-            private val maxY: Int = 5,
-            private val reportView: TextView? = null) {
+class Robot(var x: Int = 0,
+            var y: Int = 0,
+            var direction: Direction = Direction.NORTH) {
 
-    var x = 0
-    var y = 0
-    var direction = 0
+    var oldX = 0
+    var oldY = 0
+    var oldDirection = Direction.NORTH
 
-    var printReport = ""
-
-    val facing = arrayListOf("NORTH", "EAST", "SOUTH", "WEST")
-
-    fun place(x: Int, y: Int, direction: Int) {
+    fun place(x: Int, y: Int, direction: Direction) {
+        oldX = this.x
+        oldY = this.y
+        oldDirection = this.direction
         this.x = x
         this.y = y
         this.direction = direction
     }
 
     fun move() {
-        if (direction == 0 && y < maxY) {
-            y++
-        } else if (direction == 1 && x < maxX) {
-            x++
-        } else if (direction == 2 && y > 0) {
-            y--
-        } else if (direction == 3 && x > 0) {
-            x--
+        oldX = this.x
+        oldY = this.y
+        oldDirection = this.direction
+        when (direction) {
+            Direction.NORTH -> y++
+            Direction.EAST -> x++
+            Direction.SOUTH -> y--
+            Direction.WEST -> x--
         }
     }
 
     fun left() {
-        if (direction == 0) {
-            direction = 3
-        } else {
-            direction--
+        oldX = this.x
+        oldY = this.y
+        oldDirection = this.direction
+        direction = when (direction) {
+            Direction.NORTH -> Direction.WEST
+            Direction.EAST -> Direction.NORTH
+            Direction.SOUTH -> Direction.EAST
+            Direction.WEST -> Direction.SOUTH
         }
     }
 
     fun right() {
-        if (direction == 3) {
-            direction = 0
-        } else {
-            direction++
+        oldX = this.x
+        oldY = this.y
+        oldDirection = this.direction
+        direction = when (direction) {
+            Direction.NORTH -> Direction.EAST
+            Direction.EAST -> Direction.SOUTH
+            Direction.SOUTH -> Direction.WEST
+            Direction.WEST -> Direction.NORTH
         }
     }
 
-    fun report() {
-        printReport = "${this.x},${this.y},${facing[this.direction]}\n$printReport"
-        reportView?.text = printReport
+    fun draw(canvas: RobotCanvas?) {
+        canvas?.drawRobot(Robot(oldX, oldY, oldDirection), this)
     }
+}
+
+enum class Direction(facing: String) {
+    NORTH("North"), EAST("East"), SOUTH("South"), WEST("West")
 }

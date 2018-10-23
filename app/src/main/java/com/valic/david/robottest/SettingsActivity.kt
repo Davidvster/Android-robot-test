@@ -19,7 +19,7 @@ class SettingsActivity : AppCompatActivity() {
 
         start_main.setOnClickListener {
             if (grid_x.text.toString().toInt() > 0 && grid_y.text.toString().toInt() > 0) {
-                MainActivity.start(this, grid_x.text.toString().toInt(), grid_y.text.toString().toInt(), customCommands)
+                GameActivity.start(this, grid_x.text.toString().toInt(), grid_y.text.toString().toInt(), customCommands)
             }
         }
 

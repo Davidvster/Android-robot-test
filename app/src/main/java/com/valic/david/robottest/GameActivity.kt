@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter
 import com.valic.david.robottest.model.Command
 import com.valic.david.robottest.model.Direction
 
-class MainActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity() {
 
     private var customCommands = listOf<Command>()
 
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         @JvmStatic
         fun start(context: Activity, x: Int, y: Int, commands: MutableList<Command>) {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, GameActivity::class.java)
             intent.putExtra(GRID_X_SIZE, x)
             intent.putExtra(GRID_Y_SIZE, y)
             intent.putExtra(CUSTOM_COMMANDS, ArrayList(commands))

@@ -7,15 +7,17 @@ class Command : Serializable {
     var name: String = ""
     private val actions = mutableListOf<Action>()
 
-    fun executeCommand(gameManager: GameManager) {
+    fun executeCommand(gameManager: GameManager): String {
+        var report = ""
         actions.forEach { action ->
             when(action) {
                 Action.MOVE -> gameManager.actionMove()
                 Action.LEFT -> gameManager.actionLeft()
                 Action.RIGHT -> gameManager.actionRight()
-                Action.REPORT -> gameManager.actionReport()
+                Action.REPORT -> report = gameManager.actionReport()
             }
         }
+        return report
     }
 
     fun addAction(action: Action) {

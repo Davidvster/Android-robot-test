@@ -73,7 +73,7 @@ class GameActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle(resources.getString(R.string.custom_command_dialog_title))
                     builder.setItems(customCommands.map { it.name }.toTypedArray()) { _, which ->
-                        customCommands[which].executeCommand(gameManager)
+                        robot_report_out.text = customCommands[which].executeCommand(gameManager)
                     }
                     val dialog = builder.create()
                     dialog.show()

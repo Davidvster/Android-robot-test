@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".GameActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -103,7 +103,6 @@
                 app:layout_constraintBottom_toTopOf="@+id/robot_report_out"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="@string/button_report"/>
-
 
             <TextView
                 android:id="@+id/robot_report_out"

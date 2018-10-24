@@ -1,20 +1,23 @@
 package com.valic.david.robottest.model
 
+import com.valic.david.robottest.GameManager
 import java.io.Serializable
 
 class Command : Serializable {
     var name: String = ""
     private val actions = mutableListOf<Action>()
 
-    fun executeCommand(robot: Robot) {
+    fun executeCommand(gameManager: GameManager): String {
+        var report = ""
         actions.forEach { action ->
             when(action) {
-                Action.MOVE -> robot.move()
-                Action.LEFT -> robot.left()
-                Action.RIGHT -> robot.right()
-                Action.REPORT -> robot.report()
+                Action.MOVE -> gameManager.actionMove()
+                Action.LEFT -> gameManager.actionLeft()
+                Action.RIGHT -> gameManager.actionRight()
+                Action.REPORT -> report = gameManager.actionReport()
             }
         }
+        return report
     }
 
     fun addAction(action: Action) {

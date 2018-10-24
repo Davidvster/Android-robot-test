@@ -10,12 +10,13 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.ArrayAdapter
 import com.valic.david.robottest.model.Command
-import com.valic.david.robottest.model.Robot
+import com.valic.david.robottest.model.Direction
 
-class MainActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity() {
 
     private var customCommands = listOf<Command>()
-    private lateinit var robot: Robot
+
+    private val gameManager = GameManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,38 +28,32 @@ class MainActivity : AppCompatActivity() {
         val gridY = intent.getIntExtra(GRID_Y_SIZE, 5)
         customCommands = intent.getSerializableExtra(CUSTOM_COMMANDS) as List<Command>
 
-        robot_canvas.setCanvas(gridX, gridY)
+        gameManager.initBoard(gridX, gridY, robot_canvas)
 
-        robot = Robot(gridX, gridY, robot_report_out)
-
-        val facingAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, robot.facing)
+        val facingAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Direction.values().map { it.name })
         facingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         robot_place_facing.adapter = facingAdapter
 
         robot_place_action.setOnClickListener {
-            if (robot_place_x.text.isNotEmpty() && robot_place_y.text.isNotEmpty() && robot_place_facing.selectedItem != null && robot_place_x.text.toString().toInt() in 0..gridX && robot_place_y.text.toString().toInt() in 0..gridY) {
-                robot.place(robot_place_x.text.toString().toInt(), robot_place_y.text.toString().toInt(), robot_place_facing.selectedItemPosition)
-                robot_canvas.startPosition(robot.x, robot.y, robot.direction)
+            if (robot_place_x.text.isNotEmpty() && robot_place_y.text.isNotEmpty() && robot_place_facing.selectedItem != null) {
+                gameManager.actionPlace(robot_place_x.text.toString().toInt(), robot_place_y.text.toString().toInt(), Direction.valueOf(robot_place_facing.selectedItem.toString()))
             }
         }
 
         robot_move.setOnClickListener {
-            robot.move()
-            robot_canvas.move(robot.x, robot.y)
+            gameManager.actionMove()
         }
 
         robot_left.setOnClickListener {
-            robot.left()
-            robot_canvas.setDirection(robot.direction)
+            gameManager.actionLeft()
         }
 
         robot_right.setOnClickListener {
-            robot.right()
-            robot_canvas.setDirection(robot.direction)
+            gameManager.actionRight()
         }
 
         robot_report.setOnClickListener {
-            robot.report()
+            robot_report_out.text = gameManager.actionReport()
         }
     }
 
@@ -78,9 +73,7 @@ class MainActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle(resources.getString(R.string.custom_command_dialog_title))
                     builder.setItems(customCommands.map { it.name }.toTypedArray()) { _, which ->
-                        customCommands[which].executeCommand(robot)
-                        robot_canvas.move(robot.x, robot.y)
-                        robot_canvas.setDirection(robot.direction)
+                        robot_report_out.text = customCommands[which].executeCommand(gameManager)
                     }
                     val dialog = builder.create()
                     dialog.show()
@@ -97,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         @JvmStatic
         fun start(context: Activity, x: Int, y: Int, commands: MutableList<Command>) {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, GameActivity::class.java)
             intent.putExtra(GRID_X_SIZE, x)
             intent.putExtra(GRID_Y_SIZE, y)
             intent.putExtra(CUSTOM_COMMANDS, ArrayList(commands))

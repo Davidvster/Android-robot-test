@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import com.valic.david.robottest.model.Command
-import com.valic.david.robottest.model.Robot
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -20,7 +19,7 @@ class SettingsActivity : AppCompatActivity() {
 
         start_main.setOnClickListener {
             if (grid_x.text.toString().toInt() > 0 && grid_y.text.toString().toInt() > 0) {
-                MainActivity.start(this, grid_x.text.toString().toInt(), grid_y.text.toString().toInt(), customCommands)
+                GameActivity.start(this, grid_x.text.toString().toInt(), grid_y.text.toString().toInt(), customCommands)
             }
         }
 

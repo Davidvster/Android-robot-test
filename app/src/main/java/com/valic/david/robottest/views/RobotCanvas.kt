@@ -9,6 +9,7 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import com.valic.david.robottest.model.Robot
 
 class RobotCanvas : View {
 
@@ -76,7 +77,7 @@ class RobotCanvas : View {
         if (Build.VERSION.SDK_INT >= 21) {
             val offsetX = (((xRadius * currentX + xRadius) - (xRadius * currentX)) - radius)/2
             val offsetY = (((yRadius * (gridY - currentY) + yRadius) - (yRadius * (gridY - currentY))) - radius)/2
-            canvas.drawArc(xRadius * currentX + offsetX - radius/8, yRadius * (gridY - currentY) + offsetY - radius/8, xRadius * currentX + xRadius - offsetX + radius/8, yRadius * (gridY - currentY) + yRadius - offsetY + radius/8, (currentDirection) * 90.toFloat(), -180f, true, arcPaint)
+            canvas.drawArc(xRadius * currentX + offsetX - radius/8, yRadius * (gridY - currentY) + offsetY - radius/8, xRadius * currentX + xRadius - offsetX + radius/8, yRadius * (gridY - currentY) + yRadius - offsetY + radius/8, currentDirection * 90.toFloat(), -180f, true, arcPaint)
         }
     }
 
@@ -89,15 +90,8 @@ class RobotCanvas : View {
         invalidate()
     }
 
-    fun startPosition(startX: Int, startY: Int, startDirection: Int) {
-        currentX = startX.toFloat()
-        currentY = startY.toFloat()
-        currentDirection = startDirection.toFloat()
-        invalidate()
-    }
-
-    fun move(newX: Int, newY: Int) {
-        val valueAnimatorX = ValueAnimator.ofFloat(currentX, newX.toFloat())
+    fun drawRobot(oldRobot: Robot, newRobot: Robot) {
+        val valueAnimatorX = ValueAnimator.ofFloat(oldRobot.x.toFloat(), newRobot.x.toFloat())
         valueAnimatorX.interpolator = AccelerateDecelerateInterpolator()
         valueAnimatorX.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         valueAnimatorX.addUpdateListener { animation ->
@@ -106,7 +100,7 @@ class RobotCanvas : View {
         }
         valueAnimatorX.start()
 
-        val valueAnimatorY = ValueAnimator.ofFloat(currentY, newY.toFloat())
+        val valueAnimatorY = ValueAnimator.ofFloat(oldRobot.y.toFloat(), newRobot.y.toFloat())
         valueAnimatorY.interpolator = AccelerateDecelerateInterpolator()
         valueAnimatorY.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         valueAnimatorY.addUpdateListener { animation ->
@@ -114,16 +108,45 @@ class RobotCanvas : View {
             invalidate()
         }
         valueAnimatorY.start()
-    }
 
-    fun setDirection(direction: Int) {
-        val valueAnimator = ValueAnimator.ofFloat(currentDirection, direction.toFloat())
-        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-        valueAnimator.addUpdateListener { animation ->
+        val valueAnimatorD = ValueAnimator.ofFloat(oldRobot.direction.ordinal.toFloat(), newRobot.direction.ordinal.toFloat())
+        valueAnimatorD.interpolator = AccelerateDecelerateInterpolator()
+        valueAnimatorD.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+        valueAnimatorD.addUpdateListener { animation ->
             currentDirection = animation.animatedValue as Float
             invalidate()
         }
-        valueAnimator.start()
+        valueAnimatorD.start()
     }
+
+//    fun move(newX: Int, newY: Int) {
+//        val valueAnimatorX = ValueAnimator.ofFloat(currentX, newX.toFloat())
+//        valueAnimatorX.interpolator = AccelerateDecelerateInterpolator()
+//        valueAnimatorX.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+//        valueAnimatorX.addUpdateListener { animation ->
+//            currentX = animation.animatedValue as Float
+//            invalidate()
+//        }
+//        valueAnimatorX.start()
+//
+//        val valueAnimatorY = ValueAnimator.ofFloat(currentY, newY.toFloat())
+//        valueAnimatorY.interpolator = AccelerateDecelerateInterpolator()
+//        valueAnimatorY.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+//        valueAnimatorY.addUpdateListener { animation ->
+//            currentY = animation.animatedValue as Float
+//            invalidate()
+//        }
+//        valueAnimatorY.start()
+//    }
+
+//    fun setDirection(direction: Direction) {
+//        val valueAnimator = ValueAnimator.ofFloat(currentDirection, direction.ordinal.toFloat())
+//        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
+//        valueAnimator.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+//        valueAnimator.addUpdateListener { animation ->
+//            currentDirection = animation.animatedValue as Float
+//            invalidate()
+//        }
+//        valueAnimator.start()
+//    }
 }
